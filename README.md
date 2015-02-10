@@ -1,4 +1,6 @@
-# Monarch-Control-Code
+# Monarch Control Code
+For more information about the project take a look at [these pages](http://research.ocadu.ca/socialbody/project/prosthetic-technologies-of-being)
+
 Reads EMG data, transforms it for Servo consumption.
 
 # Setup &amp; Usage
