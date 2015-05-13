@@ -7,11 +7,11 @@ Reads EMG data, transforms it for Servo consumption.
 
 Download and unzip this repository over your Arduino sketch folder. This will setup the required library.
 
-When uploading, make sure you change the Monarch ID in `Monarch.ino` to the ID of the Monarch you are apploading to.
+When uploading, make sure you change the Monarch ID in `Monarch.ino` to the ID of the Monarch you are uploading to.
 
 # Editing
 
-Everything should be compatible with your favourite Arduino IDE. 
+Everything should be compatible with your favorite Arduino IDE. 
 
 # Structure
 
@@ -60,7 +60,7 @@ each modes functionality.
 
 ###`helpers.ino`
 
-Generally logic scavanged elsewhwere, two pieces that are good to fiddle
+Generally logic scavenged elsewhere, two pieces that are good to fiddle
 with:
 
 ```c
