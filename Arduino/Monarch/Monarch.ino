@@ -1,31 +1,25 @@
 
 
                      /*\
-                    /   \
-                   /     \
-                  /       \
+                    / | \
+                   /  |  \
+                  /   |   \
                   -       - 
                      SBL
                      ^^^
                    MONARCH
                   -       -
-                  \       /
-                   \     /
-                    \   /
+                  \   |   /
+                   \  |  /
+                    \ | /
                      \*/
 
 
 #include <Servo.h>
 #include <pt.h>    // Note: To run you need the protothread library! 
+                   // It should be in this repository under ../libraries
 
-const float versionNumber = 3.5; //inc by <= 0.1 if not a new iteration.
-
-/* ============================ */
-/* Hello! specify which monarch you are going to upload this to */
-const int prototypeNumber = 1; // currently: 1 or 4. They are Marked.
-/* Thank You. */
-/* ============================ */
-
+const float versionNumber = 5.0; //inc by <= 0.1 if not a new iteration.
 
 // Program Definitions
 /*   -----------
@@ -33,9 +27,6 @@ const int prototypeNumber = 1; // currently: 1 or 4. They are Marked.
        \     /
         \   /
          \*/
-
-const int min_pw = 700;  // the shortest pulse sent to a servo
-const int max_pw = 2300; // the longest pulse sent to a servo
 
 const int numReadings = 20; // Sensitivity
 int readings[numReadings]; // the readings from the analog input
@@ -49,13 +40,10 @@ int distributedValue = 0;
 
 bool toggle = false;
 
+/* Demo Globals */
 int  demoThreshold = 0;
 int  currentStage = 0;
 int  currentStep = 0;
-
-String inputString = "";         // a string to hold incoming data
-boolean stringComplete = false;  // whether the string is complete
-
 
 // THREADING
 static struct pt  pt1, pt2, pt3, pt4, pt5;
@@ -102,8 +90,6 @@ servos lServo;
 
 void setup() {
 
-  Serial.begin(9600); 
-
   PT_INIT( &pt1 );
   PT_INIT( &pt2 );
   PT_INIT( &pt3 );
@@ -114,27 +100,25 @@ void setup() {
 
   pinMode(current.modPIN, INPUT_PULLUP);
 
-  inputString.reserve(200);
-
 } 
 
 void loop() {
 
-  serialIn();
+  //serialIn();
 
-  ioThread( &pt1, 4); // Input Thread
+  ioThread(     &pt1, 4); // Input Thread
 
   switch (current.mode) {
     case 0:
-      demo( &pt2, 50); // This mode is under demo.ino
+      gradMode( &pt2, 4); // This mode is under demo.ino
       break;
     case 1:
       gradMode( &pt3, 4);
       break;
   }
   
-  driver(   &pt4, 10);  // Writes to motor
-  debugger( &pt5, 100); // Console Debugging
+  driver(       &pt4, 20);  // Writes to motor
+  debugger(     &pt5, 100); // Console Debugging
 
 }
 
@@ -151,22 +135,29 @@ void loop() {
 /*| Don't Adjust-> |*/  static int ioThread( struct pt *pt, long timeout ) { static long t = 0; PT_BEGIN( pt ); while(1) { PT_WAIT_UNTIL( pt, (millis() - t) > timeout );
 /*| edit below  -v |*/
       
-    int tempValue    = 0;
+    int emgMoment    = 0;
     int tempCalib    = 0;
-    int mappedValue  = 0;
+    int mappedMoment = 0;
     int averageValue = 0;
 
+    current.mode = digitalRead(current.modPIN);
+
+    tempCalib = analogRead(current.calPIN);
+    current.calibration = map(tempCalib, 0, 1023, 0, 200);
+
+    /* Smoothing: */
+
     total = total - readings[index];        
-    tempValue = analogRead(current.emgPIN);
+    emgMoment = analogRead(current.emgPIN);
 
-    if(tempValue < low)
-      low  = tempValue;
-    if(tempValue > high)
-      high = tempValue;
+    if(emgMoment < low)
+      low  = emgMoment;
+    if(emgMoment > high)
+      high = emgMoment;
 
-    mappedValue = map(tempValue, low, high, 0, 200);
+    mappedMoment = map(emgMoment, low, high, 0, 200);
 
-    readings[index] = mappedValue;
+    readings[index] = mappedMoment;
     total  = total + readings[index];      
     index  = index + 1;                    
 
@@ -179,11 +170,6 @@ void loop() {
     current.emg = abs(averageValue);
 
     distributedValue = distributeEMG(current.emg);
-
-    current.mode = digitalRead(current.modPIN);
-
-    tempCalib = analogRead(current.calPIN);
-    current.calibration = map(tempCalib, 0, 1023, 0, 200);
 
 
 /*| edit above -^  |*/
@@ -210,17 +196,6 @@ void loop() {
     Serial.print(" | Version: ");
     Serial.print(versionNumber);        
     Serial.println(" | ");   
-
-    if (stringComplete) {
-      Serial.println(inputString); 
-      int temp = inputString.toInt();
-
-      rServo.pos = temp;
-
-      // clear the string:
-      inputString = "";
-      stringComplete = false;
-    }
 
 /*| Edit Above -^  |*/
 /*| Don't Adjust-> |*/  t = millis(); } PT_END( pt ); }

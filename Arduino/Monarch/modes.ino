@@ -1,4 +1,3 @@
-
 // Timing threads for Modes and the 'Driver'
 /*   -----------
       \       /
@@ -36,6 +35,7 @@ int  iterations = 0;
       lServo.pos = lServo.high;
     }
 
+
 /*| edit above -^  |*/
 /*| Don't Adjust-> |*/  t = millis(); } PT_END( pt ); }
 //|----------------|//
@@ -70,18 +70,13 @@ int  iterations = 0;
 /*| Don't Adjust-> |*/  static int gradMode( struct pt *pt, long timeout ) { static long t = 0; PT_BEGIN( pt ); while(1) { PT_WAIT_UNTIL( pt, (millis() - t) > timeout );
 /*| edit below  -v |*/
 
-    int tempPos;
+    int diff = abs(lServo.pos - distributedValue);
 
-    tempPos = map(distributedValue, 0, 2000, rServo.low, rServo.high);
-    if(abs(rServo.prevPos - tempPos) > 3) {
-      rServo.pos     = tempPos;
-      rServo.prevPos = tempPos;
-    }
-
-    tempPos = map(distributedValue, 0, 2000, lServo.low, lServo.high);
-    if(abs(lServo.prevPos - tempPos) > 3) {
-      lServo.pos     = tempPos;
-      lServo.prevPos = tempPos;
+    if(diff > 4) {
+      rServo.pos     = distributedValue;
+      rServo.prevPos = distributedValue;
+      lServo.pos     = distributedValue;
+      lServo.prevPos = distributedValue;
     }
 
 /*| edit above -^  |*/

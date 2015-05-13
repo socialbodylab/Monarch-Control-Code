@@ -1,4 +1,3 @@
-
 /* Helper functions */
 
 int multiMap(int val, int* _in, int* _out, uint8_t size) {
@@ -11,23 +10,22 @@ int multiMap(int val, int* _in, int* _out, uint8_t size) {
 }
 
 int distributeEMG(int val) {
-  int out[] = { 0, 20, 300, 800, 1200, 1600, 2000, 2000, 2000, 2000, 2000};
-  int in[]  = { 0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200}; 
 
-  int x = multiMap(val, in, out, 11);
+  int tempPos = 0;
 
-  return x;
-}
+  if (val >= current.calibration) {
 
-void serialIn() {
-    while (Serial.available()) {
+    int out[] = { 0, 20, 300, 800, 1200, 1600, 2000, 2000, 2000, 2000, 2000};
+    int in[]  = { 0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200}; 
 
-    char inChar = (char)Serial.read(); 
+    int x = multiMap(val, in, out, 11);
 
-    inputString += inChar;
+    // Servo positions are the same now. `lServo` here is valid.
+    tempPos = map(x, 0, 2000, lServo.low, lServo.high);
 
-      if (inChar == '\n') {
-        stringComplete = true;
-      } 
-    }
+  } else {
+    tempPos = lServo.pos;
+  }
+
+  return tempPos;
 }
