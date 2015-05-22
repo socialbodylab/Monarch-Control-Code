@@ -1,17 +1,17 @@
 
 
                      /*\
-                    / | \
-                   /  |  \
-                  /   |   \
+                    /   \
+                   /     \
+                  /       \
                   -       - 
                      SBL
                      ^^^
                    MONARCH
                   -       -
-                  \   |   /
-                   \  |  /
-                    \ | /
+                  \       /
+                   \     /
+                    \   /
                      \*/
 
 
@@ -110,7 +110,7 @@ void loop() {
 
   switch (current.mode) {
     case 0:
-      gradMode( &pt2, 4); // This mode is under demo.ino
+      toggMode( &pt2, 4);
       break;
     case 1:
       gradMode( &pt3, 4);

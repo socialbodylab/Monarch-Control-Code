@@ -24,7 +24,7 @@ int distributeEMG(int val) {
     tempPos = map(x, 0, 2000, lServo.low, lServo.high);
 
   } else {
-    tempPos = lServo.pos;
+    tempPos = 0;
   }
 
   return tempPos;

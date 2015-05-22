@@ -18,13 +18,13 @@ prototype monarch;
 
 void prototypeDefaults() {
 
-	monarch.high  		= 86;
-	monarch.low   		= 4;
-	monarch.leftPIN   	= 8;
-	monarch.rightPIN 	= 9;
-	monarch.emgPIN 		= A0;
-	monarch.calPIN 		= A1;
-	monarch.modPIN 		= 2;
+  monarch.high      = 75;
+  monarch.low       = 0;
+  monarch.leftPIN         = 8;
+  monarch.rightPIN  = 9;
+  monarch.emgPIN    = A0;
+  monarch.calPIN    = A1;
+  monarch.modPIN    = 2;
 
 }
 
@@ -41,7 +41,7 @@ int initData() {
   lServo.pos           = lServo.low; // Sets initial position to down
   lServo.pin           = monarch.leftPIN;  
 
-  lServo.motor.attach(lServo.pin);
+  lServo.motor.attach(lServo.pin, 920,  2120);
   lServo.motor.write( lServo.low);
 
   /* Right Servo Setup */
@@ -50,23 +50,23 @@ int initData() {
   rServo.pos           = rServo.low; // Sets initial position to down
   rServo.pin           = monarch.rightPIN;
   
-  rServo.motor.attach(rServo.pin);
+  rServo.motor.attach(rServo.pin, 920, 2120);
   rServo.motor.write( rServo.low);  
 
   /* Safe defaults for other IO */
   current.emg          = 0;
   current.calibration  = 0;
   current.mode         = 1;
-  current.emgPIN 	   = monarch.emgPIN;
-  current.calPIN 	   = monarch.calPIN;
-  current.modPIN 	   = monarch.modPIN;
+  current.emgPIN     = monarch.emgPIN;
+  current.calPIN     = monarch.calPIN;
+  current.modPIN     = monarch.modPIN;
 
   previous.emg         = 0;
   previous.calibration = 0;
   previous.mode        = 0;
-  previous.emgPIN 	   = 0;
-  previous.calPIN 	   = 0;
-  previous.modPIN 	   = 0;
+  previous.emgPIN      = 0;
+  previous.calPIN      = 0;
+  previous.modPIN      = 0;
 
   /* Setsup Smoothing Array*/
   for (int thisReading = 0; thisReading < numReadings; thisReading++)
