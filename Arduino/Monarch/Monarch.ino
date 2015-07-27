@@ -13,7 +13,7 @@
                    \     /
                     \   /
                      \*/
-
+// Edit info
 
 #include <Servo.h>
 #include <pt.h>    // Note: To run you need the protothread library! 
@@ -29,7 +29,7 @@ const float versionNumber = 5.0; //inc by <= 0.1 if not a new iteration.
          \*/
 
 const int numReadings = 20; // Sensitivity
-int readings[numReadings]; // the readings from the analog input
+int readings[numReadings];  // the readings from the analog input
 
 //Some EMG data
 int low   = 90;
@@ -110,7 +110,7 @@ void loop() {
 
   switch (current.mode) {
     case 0:
-      toggMode( &pt2, 4);
+      demo( &pt2, 40);
       break;
     case 1:
       gradMode( &pt3, 4);
@@ -185,10 +185,8 @@ void loop() {
 
     Serial.print(" | m: ");
     Serial.print(current.mode);   
-    Serial.print(" | r: ");      
+    Serial.print(" | p: ");      
     Serial.print(rServo.pos);
-    Serial.print(" | l:  "); 
-    Serial.print(lServo.pos);
     Serial.print(" | cal: "); 
     Serial.print(current.calibration);
     Serial.print(" | emg: ");

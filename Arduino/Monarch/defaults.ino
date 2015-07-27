@@ -18,13 +18,13 @@ prototype monarch;
 
 void prototypeDefaults() {
 
-  monarch.high      = 75;
-  monarch.low       = 0;
-  monarch.leftPIN         = 8;
-  monarch.rightPIN  = 9;
-  monarch.emgPIN    = A0;
-  monarch.calPIN    = A1;
-  monarch.modPIN    = 2;
+	monarch.high  		= 75;
+	monarch.low   		= 0;
+	monarch.leftPIN         = 8;
+	monarch.rightPIN 	= 9;
+	monarch.emgPIN 		= A0;
+	monarch.calPIN 		= A1;
+	monarch.modPIN 		= 2;
 
 }
 
@@ -57,16 +57,16 @@ int initData() {
   current.emg          = 0;
   current.calibration  = 0;
   current.mode         = 1;
-  current.emgPIN     = monarch.emgPIN;
-  current.calPIN     = monarch.calPIN;
-  current.modPIN     = monarch.modPIN;
+  current.emgPIN 	   = monarch.emgPIN;
+  current.calPIN 	   = monarch.calPIN;
+  current.modPIN 	   = monarch.modPIN;
 
   previous.emg         = 0;
   previous.calibration = 0;
   previous.mode        = 0;
-  previous.emgPIN      = 0;
-  previous.calPIN      = 0;
-  previous.modPIN      = 0;
+  previous.emgPIN 	   = 0;
+  previous.calPIN 	   = 0;
+  previous.modPIN 	   = 0;
 
   /* Setsup Smoothing Array*/
   for (int thisReading = 0; thisReading < numReadings; thisReading++)
